@@ -2,10 +2,10 @@
 var inputs = process.argv[2];
 
 //twitter variables
-var twitterKeys = require('./keys.js');
+var keys = require('./keys.js');
 var twitter = require("twitter");
 var request = require("request");
-var T = new twitter(twitterKeys);
+var T = new twitter(keys);
 
 
 //switch statment
