@@ -2,13 +2,18 @@
 var inputs = process.argv[2];
 
 //twitter variables
-var keys = require('./keys.js');
+var twitterKeys = require('./keys.js');
 var twitter = require("twitter");
 var request = require("request");
-var T = new twitter(keys);
+var T = new twitter(twitterKeys);
 
+//twitter query parameters
+var params = {
+  q: 'brandon8118',
+  count: 20
+}; // end twitter query parameters
 
-//switch statment
+//begin switch statement
 switch (inputs) {
   case "my-tweets":
     tweet();
@@ -27,13 +32,7 @@ switch (inputs) {
     break;
 } //end switch statement
 
-//twitter query parameters
-var params = {
-  q: 'brandon8118',
-  count: 20
-}; //end twitter query parameters
-
-//tweet function
+//begin tweet function
 function tweet() {
   T.get('search/tweets', params, gotData);
 
@@ -41,6 +40,8 @@ function tweet() {
     console.log(data);
   } //end gotData function
 } //end tweet function
+
+
 
 
 function spotify() {
@@ -54,5 +55,3 @@ function movie() {
 function doIt() {
 
 }
-
-//testing
