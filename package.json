@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/brandongatlin/liri-node-app#readme",
   "dependencies": {
+    "fs": "0.0.1-security",
     "node-spotify-api": "^1.0.7",
     "omdb": "^0.8.0",
     "request": "^2.83.0",

@@ -1,3 +1,6 @@
+// require fs
+var fs = require("fs");
+
 //global variables
 var inputs = process.argv[2];
 
@@ -92,13 +95,24 @@ function movie() {
 
       } //end of console logs
 
-    });
+    }); //end if statement
   } //end of else statement
-
 
 } //end movie function
 
-
 function doIt() {
+  //read from file random.txt
+  //output that text into the spotify function?
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error) {
+      return console.log(error);
+    }
+    console.log(data);
 
-}
+    // var dataArr = data.split(",");
+
+    // console.log(dataArr);
+
+  });
+
+} //end doIt function
