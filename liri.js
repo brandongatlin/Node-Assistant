@@ -15,14 +15,17 @@ var params = {
 
 //spotify
 var Spotify = require('node-spotify-api');
-
-//spotify
 var spotify = new Spotify({
   id: "40c3cde496f34b0e87930b1c5c8193f2",
   secret: "5afa55708fdd444d87527096b5547746"
 });
 
-var song = process.argv[3];
+//var song = process.argv[3];
+
+//omdb variables
+var omdb = require('omdb');
+var flick = process.argv[3];
+
 
 //begin switch statement
 switch (inputs) {
@@ -71,7 +74,19 @@ function qSpotify() {
 } //end spotify function
 
 function movie() {
+  omdb.search(flick, function(err, movies) {
+    if (err) {
+      return console.error(err);
+    }
 
+    if (movies.length < 1) {
+      return console.log('No movies were found!');
+    }
+
+    movies.forEach(function(movie) {
+      console.log('%s (%d)', movie.title, movie.year);
+    });
+  });
 }
 
 function doIt() {
