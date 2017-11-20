@@ -20,12 +20,8 @@ var spotify = new Spotify({
   secret: "5afa55708fdd444d87527096b5547746"
 });
 
-//var song = process.argv[3];
-
 //omdb variables
 var omdb = require('omdb');
-var flick = process.argv[3];
-
 
 //begin switch statement
 switch (inputs) {
@@ -34,14 +30,17 @@ switch (inputs) {
     break;
 
   case "spotify-this-song":
+    var song = process.argv[3];
     qSpotify();
     break;
 
   case "movie-this":
+    var flick = process.argv[3];
     movie();
     break;
 
   case "do-what-it-says":
+    var mandate = process.argv[3];
     doIt();
     break;
 } //end switch statement
