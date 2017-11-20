@@ -13,6 +13,17 @@ var params = {
   count: 20
 }; // end twitter query parameters
 
+//spotify
+var Spotify = require('node-spotify-api');
+
+//spotify
+var spotify = new Spotify({
+  id: "40c3cde496f34b0e87930b1c5c8193f2",
+  secret: "5afa55708fdd444d87527096b5547746"
+});
+
+var song = process.argv[3];
+
 //begin switch statement
 switch (inputs) {
   case "my-tweets":
@@ -20,7 +31,7 @@ switch (inputs) {
     break;
 
   case "spotify-this-song":
-    spotify();
+    qSpotify();
     break;
 
   case "movie-this":
@@ -44,10 +55,20 @@ function tweet() {
   } //end gotData function
 } //end tweet function
 
-
-function spotify() {
-
-}
+//start spotify function
+function qSpotify() {
+  spotify
+    .search({
+      type: 'track',
+      query: song
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(err) {
+      console.log(err);
+    }); //end err function
+} //end spotify function
 
 function movie() {
 
