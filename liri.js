@@ -40,17 +40,14 @@ function liri() {
       break;
 
     case "spotify-this-song":
-      song = argument;
       qSpotify();
       break;
 
     case "movie-this":
-      var flick = argument;
       movie();
       break;
 
     case "do-what-it-says":
-      var mandate = argument;
       doIt();
       break;
   } //end switch statement
@@ -93,35 +90,29 @@ function qSpotify() {
 } //end spotify function
 
 function movie() {
-  var queryUrl = "http://www.omdbapi.com/?t=" + flick + "&y=&plot=short&apikey=40e9cece";
+  var queryUrl = "http://www.omdbapi.com/?t=" + argument + "&y=&plot=short&apikey=40e9cece";
 
-  // sets default film in no film argument given.
-  if (flick === undefined) {
-    flick = "mr+nobody";
+  // sets default film if no film argument given.
+  if (argument === undefined) {
+    argument = "alive";
   }
-
 
   request(queryUrl, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      // console.log(response);
-
-      console.log(body);
-      //console.log(JSON.parse(body).Ratings[0])
 
       var imdbRating = JSON.parse(body).Ratings[0];
       console.log(imdbRating);
 
       if (imdbRating == undefined) {
-        imdbRating = "Rating Not Availible"
+        imdbRating = "Rating Not Availible";
       } else {
         imdbRating = JSON.parse(body).Ratings[0].Value;
       }
 
-
       console.log("Title: " + JSON.parse(body).Title);
       console.log("Release Year: " + JSON.parse(body).Year);
       console.log("IMDB Rating: " + imdbRating);
-      console.log("Rotten Tomatoes: " + JSON.parse(body).Ratings[1]);
+      console.log("Rotten Tomatoes: " + JSON.parse(body).Ratings[1].Value);
       console.log("Country of Production: " + JSON.parse(body).Country);
       console.log("Language(s): " + JSON.parse(body).Language);
       console.log("Plot: " + JSON.parse(body).Plot);
@@ -147,7 +138,7 @@ function doIt() {
     inputs = dataArr[0]; // gets input from file
     argument = dataArr[1]; // gets argument from file
 
-    //console.log(inputs, argument);
+    console.log(inputs, argument);
 
     liri(); //runs liri
 
