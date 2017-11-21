@@ -3,6 +3,7 @@ var fs = require("fs");
 
 //global variables
 var inputs = process.argv[2];
+var argument = process.argv[3]; // this is our second liri argument (song or movie)
 
 //twitter variables
 var twitterKeys = require('./keys.js');
@@ -26,27 +27,35 @@ var spotify = new Spotify({
 //omdb variables
 var omdb = require('omdb');
 
-//begin switch statement
-switch (inputs) {
-  case "my-tweets":
-    tweet();
-    break;
 
-  case "spotify-this-song":
-    var song = process.argv[3];
-    qSpotify();
-    break;
+liri(); // called to run liri once initally
 
-  case "movie-this":
-    var flick = process.argv[3];
-    movie();
-    break;
 
-  case "do-what-it-says":
-    var mandate = process.argv[3];
-    doIt();
-    break;
-} //end switch statement
+// wraped the switch satments in a function to call again.
+function liri() {
+  //begin switch statement
+  switch (inputs) {
+    case "my-tweets":
+      tweet();
+      break;
+
+    case "spotify-this-song":
+      song = argument;
+      qSpotify();
+      break;
+
+    case "movie-this":
+      var flick = argument;
+      movie();
+      break;
+
+    case "do-what-it-says":
+      var mandate = argument;
+      doIt();
+      break;
+  } //end switch statement
+} //END liri
+
 
 //begin tweet function
 function tweet() {
@@ -62,13 +71,21 @@ function tweet() {
 
 //start spotify function
 function qSpotify() {
+
   spotify
     .search({
       type: 'track',
-      query: song
+      query: argument
     })
     .then(function(response) {
-      console.log(response);
+
+      //console.log(response);
+      //console.log(JSON.stringify(response.tracks.items[0], null, 4));
+
+      console.log("artist:", response.tracks.items[0].artists[0].name);
+      console.log("album:", response.tracks.items[0].album.name);
+      console.log("track:", response.tracks.items[0].name);
+      console.log("preview url:", response.tracks.items[0].preview_url);
     })
     .catch(function(err) {
       console.log(err);
@@ -78,25 +95,41 @@ function qSpotify() {
 function movie() {
   var queryUrl = "http://www.omdbapi.com/?t=" + flick + "&y=&plot=short&apikey=40e9cece";
 
-  if (flick === "") {
+  // sets default film in no film argument given.
+  if (flick === undefined) {
     flick = "mr+nobody";
-  } else {
-    request(queryUrl, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-        // console.log(response);
-        console.log("Title: " + JSON.parse(body).Title);
-        console.log("Release Year: " + JSON.parse(body).Year);
-        console.log("IMDB Rating: " + JSON.parse(body).Ratings[0].Value);
-        console.log("Rotten Tomatoes: " + JSON.parse(body).Ratings[1].Value);
-        console.log("Country of Production: " + JSON.parse(body).Country);
-        console.log("Language(s): " + JSON.parse(body).Language);
-        console.log("Plot: " + JSON.parse(body).Plot);
-        console.log("Actors: " + JSON.parse(body).Actors);
+  }
 
-      } //end of console logs
 
-    }); //end if statement
-  } //end of else statement
+  request(queryUrl, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      // console.log(response);
+
+      console.log(body);
+      //console.log(JSON.parse(body).Ratings[0])
+
+      var imdbRating = JSON.parse(body).Ratings[0];
+      console.log(imdbRating);
+
+      if (imdbRating == undefined) {
+        imdbRating = "Rating Not Availible"
+      } else {
+        imdbRating = JSON.parse(body).Ratings[0].Value;
+      }
+
+
+      console.log("Title: " + JSON.parse(body).Title);
+      console.log("Release Year: " + JSON.parse(body).Year);
+      console.log("IMDB Rating: " + imdbRating);
+      console.log("Rotten Tomatoes: " + JSON.parse(body).Ratings[1]);
+      console.log("Country of Production: " + JSON.parse(body).Country);
+      console.log("Language(s): " + JSON.parse(body).Language);
+      console.log("Plot: " + JSON.parse(body).Plot);
+      console.log("Actors: " + JSON.parse(body).Actors);
+
+    } //end of console logs
+  });
+
 
 } //end movie function
 
@@ -107,11 +140,16 @@ function doIt() {
     if (error) {
       return console.log(error);
     }
-    console.log(data);
+    //console.log(data);
 
-    // var dataArr = data.split(",");
+    var dataArr = data.split(",");
 
-    // console.log(dataArr);
+    inputs = dataArr[0]; // gets input from file
+    argument = dataArr[1]; // gets argument from file
+
+    //console.log(inputs, argument);
+
+    liri(); //runs liri
 
   });
 
