@@ -144,7 +144,7 @@ function doIt() {
     inputs = dataArr[0]; // gets input from file
     argument = dataArr[1]; // gets argument from file
 
-    console.log(inputs, argument);
+    // console.log(inputs, argument);
 
     liri(); //runs liri
 
