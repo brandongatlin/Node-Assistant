@@ -69,7 +69,7 @@ function tweet() {
 //start spotify function
 function qSpotify() {
   if (argument === undefined) {
-    argument = "i+want+it+that+way";
+    argument = "just+a+friend";
   }
   spotify
     .search({
