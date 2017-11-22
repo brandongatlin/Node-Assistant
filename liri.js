@@ -1,5 +1,7 @@
 // require fs
 var fs = require("fs");
+var inquirer = require("inquirer");
+
 
 //global variables
 var inputs = process.argv[2];
@@ -90,6 +92,16 @@ function qSpotify() {
     .catch(function(err) {
       console.log(err);
     }); //end err function
+
+  //start inquire fx
+  inquirer
+    .prompt([{
+      type: "confirm",
+      message: "Do you like this song?",
+      name: "confirm",
+      default: true
+    }]); //end inquire fx
+
 } //end spotify function
 
 function movie() {
