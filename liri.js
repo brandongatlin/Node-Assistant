@@ -68,11 +68,14 @@ function tweet() {
 
 //start spotify function
 function qSpotify() {
-
+  if (argument === undefined) {
+    argument = "i+want+it+that+way";
+  }
   spotify
     .search({
       type: 'track',
       query: argument
+
     })
     .then(function(response) {
 
@@ -92,9 +95,12 @@ function qSpotify() {
 function movie() {
   var queryUrl = "http://www.omdbapi.com/?t=" + argument + "&y=&plot=short&apikey=40e9cece";
 
+
   // sets default film if no film argument given.
   if (argument === undefined) {
     argument = "alive";
+    queryUrl = "http://www.omdbapi.com/?t=" + argument + "&y=&plot=short&apikey=40e9cece";
+
   }
 
   request(queryUrl, function(error, response, body) {
