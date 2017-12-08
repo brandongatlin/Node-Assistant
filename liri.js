@@ -58,10 +58,15 @@ function liri() {
 
 //begin tweet function
 function tweet() {
-  T.get('search/tweets', params, gotData);
+  T.get('statuses/user_timeline', params, gotData);
 
   function gotData(err, data, response) {
-    var tweets = data.statuses;
+    var tweets = data;
+    // console.log(data);
+    if (err) {
+      console.log(err);
+    }
+
     for (var i = 0; i < tweets.length; i++) {
       console.log(tweets[i].text);
     } //end for loop
